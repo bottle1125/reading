@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+        }
+        .dash-box {
+            width: 200px;
+            height: 200px;
+            border: 1px dashed #000;
+        }
+        .dash-box img {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>原图</p>
+        <img id="originalImage" src="https://avatars.githubusercontent.com/u/17687367?v=3" alt="" draggable="true">
+        <br>
+        <br>
+        <p>图片粘贴,复制后,ctrl+v可将图片粘贴到边框内</p>
+        <div id="box" class="box">
+            <img src="" id="image" alt="">
+        </div>
+        <br>
+        <br>
+        <p>图片拖拽</p>
+        <div id="dragImageBox" class="dash-box">
+            <img src="" id="dragImage" alt="">
+        </div>
+    </div>
+    <script>
+        var box = document.getElementById('box');
+        var originalImage = document.getElementById('originalImage');
+        var dragImageBox = document.getElementById('dragImageBox');
+
+        function dataURLtoBlob(dataurl) {
+            let arr = dataurl.split(",");
+            console.log(arr[0]);  // data:image/png;base64
+            let mime = arr[0].match(/:(.*?);/)[1];  // image/png
+            let bstr = atob(arr[1]); // atob函数能够解码通过base64编码的字符串数据，btoa函数能够从二进制数据“字符串”创建一个base64编码的ascii字符串
+            let n = bstr.length;
+            let u8arr = new Uint8Array(n);
+
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            return new Blob([u8arr], { type: mime });
+        }
+        var readAsBase64 = function(file, domId) {
+            var render = new FileReader();
+            render.onload = () => {
+                // base64
+                var src = render.result;
+
+
+                var image = document.getElementById(domId);
+                // image.setAttribute('src', src);
+
+                var blob = dataURLtoBlob(src);
+                image.setAttribute('src', window.URL.createObjectURL(file));
+            }
+            render.readAsDataURL(file);
+        }
+
+        var readAsBlob = function(file, domId) {
+            var image = document.getElementById(domId);
+            image.setAttribute('src', window.URL.createObjectURL(file));
+        }
+
+        originalImage.ondragstart = function(e) {
+            e.dataTransfer.setData('Text', e.target.id);
+        };
+
+        dragImageBox.ondragover = function(e) {
+            e.preventDefault();
+        }
+
+        dragImageBox.ondrop = function(e) {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if(!file) {
+                var data = e.dataTransfer.getData('Text');
+                e.target.appendChild(document.getElementById(data).cloneNode(true));
+            } else {
+                readAsBlob(file, 'dragImage');
+            }
+        };
+
+        box.addEventListener('paste', function(e) {
+            var file = e.clipboardData.files[0];
+
+            readAsBase64(file, 'image');
+        });
+    </script>
+</body>
+</html>

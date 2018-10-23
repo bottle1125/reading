@@ -2,9 +2,9 @@
     "version": "2.5.11",
     "type": "templet",
     "settings": {
-        "backgroundAudio": "/Users/pingzi/works/视频编辑资料/全部替换-20181017/三维文字测试/backgroundAudio.mp3",
-        "backgroundVideo": "/Users/pingzi/works/视频编辑资料/全部替换-20181017/三维文字测试/backgroundVideo.mp4",
-        "maskVideo": "/Users/pingzi/works/视频编辑资料/全部替换-20181017/三维文字测试/maskVideo.mp4",
+        "backgroundAudio": "",
+        "backgroundVideo": "",
+        "maskVideo": "",
         "blendMode": 0,
         "coverTime": 5000,
         "fps": 15,
@@ -18,7 +18,7 @@
             "ddd": 1,
             "ind": 1,
             "ty": 5,
-            "nm": "三维文字测试",
+            "nm": "text",
             "sr": 1,
             "ks": {
                 "o": {
@@ -472,7 +472,7 @@
     "op": 150,
     "w": 720,
     "h": 540,
-    "nm": "素材导出",
+    "nm": "ssss",
     "ddd": 1,
     "assets": [],
     "fonts": {
